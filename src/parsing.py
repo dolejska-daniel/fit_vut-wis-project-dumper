@@ -39,9 +39,10 @@ class TaskParser(Parser):
 
 class TaskFilesParser(Parser):
 
-    def get_file_names_and_links(self) -> Generator[tuple[str, str], None, None]:
+    def get_file_names_and_links(self) -> Generator[tuple[str, str, str], None, None]:
+        year = self.content.find("h1").text.rsplit("/", maxsplit=1)[-1]
         file_links = self.content.select(".content > form > table tr[valign='middle'] > td > a")
         for link in file_links:
-            yield link.text, link["href"]
+            yield link.text, year, link["href"]
 
         return None

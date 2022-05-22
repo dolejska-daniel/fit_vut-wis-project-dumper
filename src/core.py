@@ -39,8 +39,8 @@ class Downloader:
     def _get_course_task_files(self, course_files_link: str, task: CourseTask) -> Generator[TaskFile, None, None]:
         assert self.connection is not None
         page_content = self.connection.get_content(course_files_link)
-        for file_name, file_link in TaskFilesParser(page_content).get_file_names_and_links():
-            yield TaskFile(file_name, file_link, task)
+        for file_name, file_year, file_link in TaskFilesParser(page_content).get_file_names_and_links():
+            yield TaskFile(file_name, file_year, file_link, task)
 
     def _explore_course(self, course: Course):
         log.info("exploring course %s", course.abbr)
@@ -62,8 +62,9 @@ class Downloader:
         destination_dir = self.output_dir.joinpath(f"{task.course.abbr}/{task.name}")
         for file in self._get_course_task_files(course_files_link, task):
             log.debug("found file '%s', downloading...", file.name)
-            destination_dir.mkdir(parents=True, exist_ok=True)
-            destination_path = destination_dir.joinpath(file.name)
+            file_destination_dir = destination_dir.joinpath(file.year)
+            file_destination_dir.mkdir(parents=True, exist_ok=True)
+            destination_path = file_destination_dir.joinpath(file.name)
             self.connection.download_file(file.link, destination_path)
             files_found += 1
 

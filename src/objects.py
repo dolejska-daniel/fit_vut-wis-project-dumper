@@ -16,7 +16,8 @@ class CourseTask:
 
 class TaskFile:
 
-    def __init__(self, file_name: str, file_link: str, task: CourseTask):
+    def __init__(self, file_name: str, file_year: str, file_link: str, task: CourseTask):
         self.name = file_name
+        self.year = file_year
         self.link = file_link
         self.task = task
