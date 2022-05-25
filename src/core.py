@@ -1,6 +1,8 @@
 import logging
+import re
 from pathlib import Path
 from typing import Generator, Optional
+from unidecode import unidecode
 
 from requests import HTTPError
 
@@ -59,7 +61,8 @@ class Downloader:
             return 0
 
         files_found = 0
-        destination_dir = self.output_dir.joinpath(f"{task.course.abbr}/{task.name}")
+        task_name = unidecode(re.sub(r'[<>:\?\*]', '', task.name))
+        destination_dir = self.output_dir.joinpath(f'{unidecode(task.course.abbr)}/{task_name}')
         for file in self._get_course_task_files(course_files_link, task):
             log.debug("found file '%s', downloading...", file.name)
             file_destination_dir = destination_dir.joinpath(file.year)
