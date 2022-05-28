@@ -14,7 +14,7 @@ def get_user_credentials() -> (str, str):
     while re.fullmatch(r"^x[a-z]{5}[a-z\d]{2}$", username) is None:
         username = input("WIS username: ")
 
-    while len(password) != 10:
+    while len(password) < 10:
         password = getpass("WIS password: ", sys.stdout)
 
     log.debug("credentials successfully obtained: username=%s, password=%s", username, password)
