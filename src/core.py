@@ -111,6 +111,7 @@ class Downloader:
         self.connection.close()
 
     def _explore_studies(self):
+        previous_had_courses = True
         for study_id in range(1, 6):
             log.info("exploring courses in study %d", study_id)
 
@@ -119,6 +120,9 @@ class Downloader:
                 self._explore_course(course)
                 has_courses = True
 
-            if not has_courses:
-                log.info("study %d does not contain any courses, completing the program", study_id)
+            if not has_courses and not previous_had_courses:
+                log.info("two subsequent studies (%d and %d) contained no courses, finishing study exploration",
+                         study_id - 1, study_id)
                 break
+
+            previous_had_courses = has_courses
