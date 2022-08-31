@@ -61,7 +61,7 @@ class Downloader:
             return 0
 
         files_found = 0
-        task_name = unidecode(re.sub(r'[<>:\?\*]', '', task.name))
+        task_name = unidecode(re.sub(r'[<>:\?\*\\/]', '', task.name))
         destination_dir = self.output_dir.joinpath(f'{unidecode(task.course.abbr)}/{task_name}')
         for file in self._get_course_task_files(course_files_link, task):
             log.debug("found file '%s', downloading...", file.name)
