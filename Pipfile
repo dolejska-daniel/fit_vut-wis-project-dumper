@@ -7,6 +7,7 @@ name = "pypi"
 requests = "*"
 bs4 = "*"
 html5lib = "*"
+unidecode = "*"
 
 [dev-packages]
 
